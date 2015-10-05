@@ -94,4 +94,4 @@ ${SUDO} docker run -t -d \
   ${ENV_VARS} \
   ${VIDEO_DEVICES} \
   ${VOLUMES} \
-  ${USER}/skype:latest ${prog} $@ >/dev/null
+  openmandriva/skype:latest ${prog} $@ >/dev/null
