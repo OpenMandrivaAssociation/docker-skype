@@ -26,7 +26,7 @@ cleanup_stopped_skype_instances(){
   for c in $(${SUDO} docker ps -a -q)
   do
     image="$(${SUDO} docker inspect -f {{.Config.Image}} ${c})"
-    if [ "${image}" == "sameersbn/skype:latest" ]; then
+    if [ "${image}" == "openmandriva/skype:latest" ]; then
       running=$(${SUDO} docker inspect -f {{.State.Running}} ${c})
       if [ "${running}" != "true" ]; then
         ${SUDO} docker rm "${c}" >/dev/null
@@ -90,8 +90,8 @@ prepare_docker_volume_parameters
 prepare_docker_device_parameters
 
 echo "Starting ${prog}..."
-${SUDO} docker run -d \
+${SUDO} docker run -t -d \
   ${ENV_VARS} \
   ${VIDEO_DEVICES} \
   ${VOLUMES} \
-  sameersbn/skype:latest ${prog} $@ >/dev/null
+  ${USER}/skype:latest ${prog} $@ >/dev/null

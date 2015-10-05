@@ -26,8 +26,7 @@ create_user() {
 
   # create user with USER_UID
   if ! getent passwd ${SKYPE_USER} >/dev/null; then
-    adduser --disabled-login --uid ${USER_UID} --gid ${USER_GID} \
-      --gecos 'Skype' ${SKYPE_USER} >/dev/null 2>&1
+    adduser -c 'docker skype user' --uid ${USER_UID} --gid ${USER_GID} ${SKYPE_USER} >/dev/null 2>&1
   fi
   chown ${SKYPE_USER}:${SKYPE_USER} -R /home/${SKYPE_USER}
 }

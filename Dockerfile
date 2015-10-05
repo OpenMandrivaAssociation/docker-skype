@@ -1,13 +1,14 @@
-FROM sameersbn/ubuntu:14.04.20150825
+FROM openmandriva/openmandriva32-2014.0:latest
 
 ENV SKYPE_USER=skype
 
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv 7212620B \
- && echo "deb http://archive.canonical.com/ trusty partner" >> /etc/apt/sources.list \
- && dpkg --add-architecture i386 \
- && apt-get update \
- && apt-get install -y pulseaudio:i386 skype:i386 \
- && rm -rf /var/lib/apt/lists/*
+RUN urpmi.addmedia non-free http://abf-downloads.rosalinux.ru/openmandriva2014.0/repository/i586/non-free/release/ \
+ && urpmi.addmedia non-free_updates http://abf-downloads.rosalinux.ru/openmandriva2014.0/repository/i586/non-free/updates/ \
+ && mkdir -p /var/cache/skype/ \
+ && urpmi.update -a \
+ && urpmi --auto --auto-update \
+ && urpmi --no-suggests --auto systemd fontconfig sudo skype \
+ && rm -rf /var/cache/urpmi/rpms/*
 
 COPY scripts/ /var/cache/skype/
 COPY entrypoint.sh /sbin/entrypoint.sh
